@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 
 # define values
 set ( PROJECT_NAME river)               # project name
-set ( EXTERN_LIB_PATH "../Lib/")        # path to extern libaries
+set ( EXTERN_LIB_PATH "../../Lib/")     # path to extern libaries
 set ( PROJECT_VERSION 1.0)              # project version
 set ( CMAKE_CXX_STANDARD 17)            # c++ version
 set ( CMAKE_MAKE_PROGRAM make)          # make program
@@ -13,7 +13,7 @@ project(${PROJECT_NAME} VERSION ${PROJECT_VERSION}) # setup project
 
 # linking system dependencies
 if (UNIX)
-    set ( CMAKE_CXX_FLAGS " -lGL -lX11 -lpthread -lXrandr -lXi -ldl")
+    set ( CMAKE_CXX_FLAGS "-lGL -lX11 -lpthread -lXrandr -lXi -ldl")
 endif()
 
 # TODO WIN32: MINGW MSVC / APPLE: CLANG
@@ -40,5 +40,3 @@ file ( GLOB SOURCES3 "src/render/*.cpp")
 
 add_executable(${PROJECT_NAME} "src/glad.c" ${SOURCES} ${SOURCES2} ${SOURCES3})
 target_link_libraries(${PROJECT_NAME} ${PROJECT_LINK_LIBS})
-# target_link_libraries(${PROJECT_NAME} ${FREETYPE_LIBRARIES})
-# target_include_directories(${PROJECT_NAME} PRIVATE ${FREETYPE_INCLUDE_DIRS})
