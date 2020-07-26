@@ -1,7 +1,0 @@
-Determining if the C compiler works failed with the following output:
-Change Dir: /home/marcelk/projects/river/build/CMakeFiles/CMakeTmp
-
-Run Build Command(s): cmTC_c723e/fast && No such file or directory
-Generator: execution of make failed. Make command was:  cmTC_c723e/fast && 
-
-
