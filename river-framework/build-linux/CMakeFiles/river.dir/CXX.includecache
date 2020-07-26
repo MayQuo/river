@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/marcelk/projects/river-project/river-framework/src/river.cpp
+river.h
+/home/marcelk/projects/river-project/river-framework/src/river.h
+iostream
+-
+
+/home/marcelk/projects/river-project/river-framework/src/river.h
+

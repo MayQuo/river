@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libriver.so -o libriver.so CMakeFiles/river.dir/src/river.cpp.o 

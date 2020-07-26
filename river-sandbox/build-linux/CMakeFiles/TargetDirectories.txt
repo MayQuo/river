@@ -1,0 +1,3 @@
+/home/marcelk/projects/river-project/river-sandbox/build-linux/CMakeFiles/rebuild_cache.dir
+/home/marcelk/projects/river-project/river-sandbox/build-linux/CMakeFiles/edit_cache.dir
+/home/marcelk/projects/river-project/river-sandbox/build-linux/CMakeFiles/sandbox.dir
