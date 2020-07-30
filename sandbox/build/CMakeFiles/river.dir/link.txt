@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/river.dir/src/main.cpp.o  -o river   -L/home/marcelk/projects/river-project/sandbox/../framework/build  -Wl,-rpath,/home/marcelk/projects/river-project/sandbox/../framework/build -lriver 

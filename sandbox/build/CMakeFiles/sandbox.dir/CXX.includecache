@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../../framework/include/river/app/application.h
+
+../../framework/include/river/app/asset_manager.h
+map
+-
+
+../../framework/include/river/core/rmath.h
+
+../../framework/include/river/river.h
+app/application.h
+../../framework/include/river/app/application.h
+app/asset_manager.h
+../../framework/include/river/app/asset_manager.h
+core/rmath.h
+../../framework/include/river/core/rmath.h
+
+/home/marcelk/projects/river-project/sandbox/src/main.cpp
+river/river.h
+-
+iostream
+-
+

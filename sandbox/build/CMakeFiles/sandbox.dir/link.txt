@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/sandbox.dir/src/main.cpp.o  -o sandbox   -L/home/marcelk/projects/river-project/sandbox/../framework/build  -Wl,-rpath,/home/marcelk/projects/river-project/sandbox/../framework/build -lriver 

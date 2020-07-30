@@ -1,0 +1,8 @@
+/home/marcelk/projects/river-project/framework/build/CMakeFiles/rebuild_cache.dir
+/home/marcelk/projects/river-project/framework/build/CMakeFiles/edit_cache.dir
+/home/marcelk/projects/river-project/framework/build/CMakeFiles/river.dir
+/home/marcelk/projects/river-project/framework/build/third-party/glfw/CMakeFiles/rebuild_cache.dir
+/home/marcelk/projects/river-project/framework/build/third-party/glfw/CMakeFiles/edit_cache.dir
+/home/marcelk/projects/river-project/framework/build/third-party/glfw/src/CMakeFiles/rebuild_cache.dir
+/home/marcelk/projects/river-project/framework/build/third-party/glfw/src/CMakeFiles/edit_cache.dir
+/home/marcelk/projects/river-project/framework/build/third-party/glfw/src/CMakeFiles/glfw.dir
