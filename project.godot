@@ -14,15 +14,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/entities/Entity.gd"
 }, {
+"base": "Node2D",
+"class": "InputHandler",
+"language": "GDScript",
+"path": "res://scenes/system/InputHandler.gd"
+}, {
 "base": "Area2D",
 "class": "Lava",
 "language": "GDScript",
 "path": "res://scenes/environment/Lava.gd"
 }, {
-"base": "Node2D",
-"class": "PlayerController",
+"base": "InputHandler",
+"class": "PlayerInputHandler",
 "language": "GDScript",
-"path": "res://scenes/system/PlayerController.gd"
+"path": "res://scenes/system/PlayerInputHandler.gd"
 }, {
 "base": "Node2D",
 "class": "Stage",
@@ -41,8 +46,9 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Entity": "",
+"InputHandler": "",
 "Lava": "",
-"PlayerController": "",
+"PlayerInputHandler": "",
 "Stage": "",
 "State": "",
 "StateMachine": ""

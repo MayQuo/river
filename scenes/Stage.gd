@@ -1,8 +1,8 @@
 extends Node2D
 class_name Stage
 
-onready var player: Entity = find_node("Lerow", true, true)
-onready var player_controller: PlayerController = $PlayerController
+onready var player = find_node("Lerow", true, true)
+onready var player_controller = $PlayerInputHandler
 onready var camera: Camera2D =  $Camera2D
 onready var camera_zoom: AnimationPlayer = $Camera2D/Zoom
 onready var healthbar: HBoxContainer = $UI/Healthbar
@@ -17,7 +17,7 @@ var camera_cinematic_speed = 2.0
 var camera_speed
 
 func _ready() -> void:
-	player_controller.player = player
+	player_controller.entity = player
 	generate_healthbar_container()
 	camera_speed = camera_player_speed
 
