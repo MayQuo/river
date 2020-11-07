@@ -1,0 +1,91 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://textures/ui/lava.shader" type="Shader" id=1]
+[ext_resource path="res://scenes/environment/Lava.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="OpenSimplexNoise" id=2]
+seed = 2
+octaves = 2
+period = 185.3
+persistence = 1.0
+lacunarity = 0.1
+
+[sub_resource type="NoiseTexture" id=3]
+flags = 2
+width = 64
+height = 64
+seamless = true
+noise = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 1 )
+shader_param/noise = SubResource( 3 )
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 1 )
+colors = PoolColorArray( 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+width = 1
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0, 0.474886, 1 )
+colors = PoolColorArray( 1, 0.644531, 0, 1, 0.994943, 0.43336, 0, 1, 0.986328, 1, 0, 1 )
+
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+trail_divisor = 2
+trail_color_modifier = SubResource( 8 )
+emission_shape = 1
+emission_sphere_radius = 11.2
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 45.48
+gravity = Vector3( 0, -31, 0 )
+initial_velocity = 1.0
+angular_velocity = 114.78
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 42.53
+radial_accel = 5.79
+damping = 1.38
+damping_random = 0.65
+color = Color( 0.952941, 1, 0.560784, 1 )
+anim_offset = 0.67
+
+[node name="Lava" type="Area2D" groups=[
+"instant_death",
+]]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( 16, 16 )
+scale = Vector2( 32, 32 )
+z_index = 20
+texture = SubResource( 6 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Particles2D" type="Particles2D" parent="."]
+visible = false
+amount = 3
+preprocess = 24.49
+speed_scale = 0.4
+explosiveness = 0.28
+randomness = 0.43
+process_material = SubResource( 9 )
+[connection signal="body_entered" from="." to="." method="_on_Lava_body_entered"]
