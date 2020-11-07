@@ -20,7 +20,6 @@ func _ready() -> void:
 	player_controller.player = player
 	generate_healthbar_container()
 	camera_speed = camera_player_speed
-	
 
 func _process(delta: float) -> void:
 	camera.position = lerp(camera.position, camera_target.position, camera_speed * delta)
