@@ -1,11 +1,15 @@
 extends Node
 class_name State
 
-onready var state_machine = self.get_parent()
-onready var entity = state_machine.get_parent()
+var parent = null
+var entity = null
 
-func enter() -> void:
+func init() -> void:
+	pass
+	
+func update(delta) -> void:
 	pass
 
-func update(delta: float) -> void:
-	pass
+func change_state(name: String) -> void:
+	if parent:
+		parent.change_state(name)

@@ -19,44 +19,48 @@ export(bool) var is_attackable: bool = true
 
 ####################################################################################################
 onready var animated_sprite = $AnimatedSprite
+onready var state_machine: StateMachine = $StateMachine
 
 var jump_count: int = 1
 var velocity: Vector2 = Vector2()
 var health: int = 3
 var spawn_point: Vector2 = Vector2()
+
+var moving: Vector2 = Vector2() setget set_moving, get_moving
+func set_moving(vec: Vector2) -> void:
+	moving.x = vec.x
+	moving.y = vec.y
+func get_moving() -> Vector2:
+	return moving
+
+var jumping: bool = false setget set_jumping, get_jumping
+func set_jumping(value: bool) -> void:
+	jumping = value
+func get_jumping() -> bool:
+	return jumping
+
+var ladder: bool = false setget set_ladder, get_ladder
+func set_ladder(value: bool) -> void:
+	ladder = value
+func get_ladder() -> bool:
+	return ladder
+
 ####################################################################################################
 signal health_changed
 
 ####################################################################################################
-# input pipeline from input handlers (Player, AI)
-var moving: float = 0.0 setget set_moving, get_moving
-var jumping: bool = false setget set_jumping, get_jumping
-####################################################################################################
+
 func _ready():
 	spawn_point = global_position
+	state_machine.parent = self
+	state_machine.entity = self
+	state_machine.init()
 
-####################################################################################################
-func get_jumping() -> bool:
-	#if jump_count > 0:
-	#	jump_count = jump_count-1
-	#	velocity.y = lerp(velocity.y, -jump_height, JUMP_FORCE)
-	return jumping
 	
-func set_jumping(val: bool) -> void:
-	jumping = val
 ####################################################################################################
-func set_moving(direction: float) -> void:
-	moving = direction
-
-func get_moving() -> float:
-	#velocity.x = lerp(velocity.x, hor*movement_speed, acceleration*delta)
-	#is_moving_h = true
-	#update_flip_h(hor)
-	return moving
-####################################################################################################
-func update_flip_h(hor: float) -> void:
-	if hor != 0:
-		animated_sprite.scale.x = sign(hor)
+func update_flip_h() -> void:
+	if moving.x != 0:
+		animated_sprite.scale.x = sign(moving.x)
 
 ####################################################################################################
 func play_animation(anim: String) -> void:
@@ -64,18 +68,13 @@ func play_animation(anim: String) -> void:
 		animated_sprite.play(anim)
 
 ####################################################################################################
-
-####################################################################################################
 func _process(delta) -> void:
-	if is_on_floor() == false:
-		velocity.y += GRAVITY * delta * PI
-#	elif velocity.y == 0:
-#		jump_count = maximum_jump_count
-#
-	update_flip_h(get_moving())
+	state_machine.update(delta)
 
-#	# apply velocity & collision
+	# apply velocity & collision
 	velocity = move_and_slide(velocity, Vector2.UP)
 	velocity.x = clamp(velocity.x, -movement_speed, movement_speed)
+
+	update_flip_h()
 	
 ####################################################################################################

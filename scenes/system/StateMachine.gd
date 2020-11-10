@@ -1,29 +1,33 @@
 extends Node
 class_name StateMachine
 
-onready var current_state_name: String = ""
-onready var current_state: State = get_child(0)
-onready var entity = self.get_parent()
-
-var prev_state: String = "" setget ,get_prev
-
 var states = {}
+var parent = null
+var current_state = null
+var prev = null
+var entity = null
 
-func _ready():
-	pass
+signal state_changed(s)
 
-func _process(delta):
+func define_state(name: String, state) -> void:
+	states[name] = state
+	states[name].parent = self
+	states[name].entity = entity
+
+func change_state(name: String):
+	current_state = states[name]
+	current_state.init()
+	emit_signal("state_changed", name)
+
+func init():
+	if not states.empty() and current_state == null:
+		current_state = states.values()[0]
+		current_state.entity = entity
+		#current_state.init()
+		
+func update(delta):
 	if current_state:
 		current_state.update(delta)
 
-func change_state(next_state: String):
-	if current_state_name == next_state:
-		return
-	# TODO: What happens if a state changed?
-	# ISSUE: Player was locked in jump state and did not moved anywhere
-	# 		 because previous state was equals to current state
-
-	current_state.enter()
-
-func get_prev() -> String:
-	return prev_state
+func get(name: String):
+	return states[name]

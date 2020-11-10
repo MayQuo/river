@@ -49,6 +49,7 @@ entity_name = "Lerow"
 movement_speed = 120.0
 acceleration = 10.0
 jump_height = 140.0
+is_playable = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 888, -152 )
