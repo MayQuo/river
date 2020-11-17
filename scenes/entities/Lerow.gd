@@ -11,8 +11,8 @@ class air_class extends StateMachine:
 		.update(delta)
 		if entity.is_on_floor() == false:
 			entity.velocity.y += entity.GRAVITY * delta * PI
-		#elif entity.velocity.y > 0:
-		#	entity.velocity.y = 0
+		elif entity.velocity.y > 0:
+			entity.velocity.y = 0
 
 		var dir = entity.get_moving().x
 		entity.velocity.x = lerp(entity.velocity.x, entity.movement_speed * dir, entity.acceleration * delta)
@@ -20,6 +20,12 @@ class air_class extends StateMachine:
 		if entity.get_ladder() and entity.next_ladder:
 			parent.get("ladder").change_state("idle")
 			parent.change_state("ladder")
+	
+		if entity.get_roll():
+			change_state("roll")
+	
+		if entity.get_dash():
+			change_state("dash")
 	
 	################################################################################################
 	class idle extends State:
@@ -33,6 +39,10 @@ class air_class extends StateMachine:
 			if entity.get_jumping():
 				parent.get("jump").prev = "idle"
 				change_state("jump")
+				
+			if entity.velocity.y > 5:
+				change_state("fall")
+
 	################################################################################################
 	class move extends State:
 		func init():
@@ -45,18 +55,61 @@ class air_class extends StateMachine:
 			if entity.get_jumping():
 				parent.get("jump").prev = "move"
 				change_state("jump")
+			
+			if entity.velocity.y > 5:
+				change_state("fall")
 	
 	################################################################################################
 	class jump extends State:
 		var prev
+		var landing = false
 		
 		func init():
+			landing = false
 			entity.velocity.y = lerp(entity.velocity.y, -entity.jump_height, entity.JUMP_FORCE)
 			entity.play_animation("jump")
-		func update(delta):
 			
-			if entity.is_on_floor() and entity.velocity.y >= 0:
-				change_state(prev)
+		func update(delta):
+			if entity.velocity.y >= 0:
+				change_state("fall")
+				
+	################################################################################################
+	class fall extends State:
+		var landing = false
+		func init():
+			landing = false
+			entity.play_animation("fall")
+		
+		func update(delta):
+			if entity.is_on_floor() and not landing:
+				entity.play_animation("landing")
+				landing = true
+				yield(entity.animated_sprite, "animation_finished")
+				if entity.get_moving().x != 0:
+					change_state("move")
+				else:
+					change_state("idle")
+	
+	################################################################################################
+	class roll extends State:
+		func init():
+			entity.play_animation("roll")
+			#entity.velocity.x = entity.get_moving().x * 2000.0
+			yield(entity.animated_sprite, "animation_finished")
+			change_state("idle")
+		func update(delta):
+			pass
+	
+	################################################################################################
+	class dash extends State:
+		var dir = 1.0
+		func init():
+			entity.play_animation("dash")
+			dir = entity.get_moving().x 
+			yield(entity.animated_sprite, "animation_finished")
+			change_state("idle")
+		func update(delta):
+			entity.velocity.x += dir * 800.0
 
 ###################################################################################################
 # water states
@@ -128,6 +181,20 @@ var ladder_states: ladder_class = ladder_class.new()
 
 var next_ladder: Area2D = null
 
+var roll: bool setget set_roll, get_roll
+var dash: bool setget set_dash, get_dash
+func set_roll(value: bool) -> void:
+	roll = value
+
+func get_roll() -> bool:
+	return roll
+
+func set_dash(value: bool) -> void:
+	dash = value
+
+func get_dash() -> bool:
+	return dash
+
 func _ready():
 	
 	state_machine.define_state("air", air_states)
@@ -137,7 +204,10 @@ func _ready():
 	air_states.define_state("idle", air_class.idle.new())
 	air_states.define_state("move", air_class.move.new())
 	air_states.define_state("jump", air_class.jump.new())
-
+	air_states.define_state("fall", air_class.fall.new())
+	air_states.define_state("roll", air_class.roll.new())
+	air_states.define_state("dash", air_class.dash.new())
+	
 	water_states.define_state("idle", water_class.idle.new())
 	water_states.define_state("move", water_class.move.new())
 	
@@ -154,12 +224,10 @@ func _ready():
 func _on_air_state_changed(s):
 	label.text = s
 
-
 func _on_Trigger_area_entered(area):
 	var target = area as Area2D
 	if target.is_in_group("ladder"):
 		next_ladder = target
-
 
 func _on_Trigger_area_exited(area):
 	var target = area as Area2D

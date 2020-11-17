@@ -72,9 +72,8 @@ func _process(delta) -> void:
 	state_machine.update(delta)
 
 	# apply velocity & collision
-	velocity = move_and_slide(velocity, Vector2.UP)
+	velocity = move_and_slide_with_snap(velocity, Vector2(1.0,1.0), Vector2.UP)
 	velocity.x = clamp(velocity.x, -movement_speed, movement_speed)
 
 	update_flip_h()
-	
 ####################################################################################################

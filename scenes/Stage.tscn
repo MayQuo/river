@@ -43,10 +43,12 @@ script = ExtResource( 1 )
 script = ExtResource( 3 )
 entity = NodePath("../Lerow")
 
-[node name="Lerow" parent="." instance=ExtResource( 4 )]
-position = Vector2( 896, -128 )
+[node name="Lerow" parent="." groups=[
+"lerow",
+] instance=ExtResource( 4 )]
+position = Vector2( 296, 384 )
 entity_name = "Lerow"
-movement_speed = 120.0
+movement_speed = 160.0
 acceleration = 10.0
 jump_height = 140.0
 is_playable = true

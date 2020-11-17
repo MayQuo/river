@@ -14,5 +14,14 @@ func input_update(delta) -> void:
 		entity.set_ladder(Input.is_action_just_pressed("ladder"))
 		
 		entity.set_moving(Vector2(right-left, down-up))
+		
+		if entity.is_in_group("lerow"):
+			var roll: bool = Input.is_action_just_pressed("roll")
+			var dash: bool = Input.is_action_just_pressed("dash")
+			var slide: bool = Input.is_action_just_pressed("slide")
+			var smoke: bool = Input.is_action_just_pressed("smoke")
+			
+			entity.set_roll(roll)
+			entity.set_dash(dash)
 	else:
 		entity.set_moving(Vector2.ZERO)

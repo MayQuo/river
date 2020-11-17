@@ -6,7 +6,7 @@ signal cinematic_action_start
 signal cinematic_action_finished
 
 func _ready():
-	pass
+	$Enviroment/Platform/Moving.play("moving")
 
 func _on_Pressure_activate():
 	bridge_anim.play("anim")
