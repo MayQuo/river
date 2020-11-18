@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://resources/spriteframes/sticky_green_1.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://scenes/entities/Entity.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/entities/StickyGreen.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5, 6 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 13.7297
+
+[node name="StickyGreen" groups=[
+"entity",
+"playable",
+"sticky",
+] instance=ExtResource( 2 )]
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" parent="." index="0"]
+position = Vector2( 0, -16 )
+frames = ExtResource( 1 )
+animation = "idle"
+frame = 3
+playing = true
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( 0, -6 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger" index="0"]
+position = Vector2( 0, -6 )
+shape = SubResource( 2 )
+[connection signal="body_entered" from="Trigger" to="." method="_on_Trigger_body_entered"]
+[connection signal="body_exited" from="Trigger" to="." method="_on_Trigger_body_exited"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/Stage.gd" type="Script" id=1]
 [ext_resource path="res://scenes/levels/Forest01.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/system/PlayerInputHandler.gd" type="Script" id=3]
 [ext_resource path="res://scenes/entities/Lerow.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/entities/StickyGreen.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "zoom_in"
@@ -56,7 +57,7 @@ is_playable = true
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 888, -152 )
 current = true
-zoom = Vector2( 0.2, 0.2 )
+zoom = Vector2( 0.3, 0.3 )
 smoothing_speed = 10.0
 
 [node name="Zoom" type="AnimationPlayer" parent="Camera2D"]
@@ -73,6 +74,14 @@ margin_bottom = 64.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="StickyGreen" parent="." instance=ExtResource( 5 )]
+position = Vector2( 224, 384 )
+movement_speed = 200.0
+jump_height = 200.0
+is_playable = true
 [connection signal="cinematic_action_finished" from="Forest01" to="." method="_on_Forest01_cinematic_action_finished"]
 [connection signal="cinematic_action_start" from="Forest01" to="." method="_on_Forest01_cinematic_action_start"]
 [connection signal="health_changed" from="Lerow" to="." method="_on_Lerow_health_changed"]
+[connection signal="body_entered" from="StickyGreen" to="." method="_on_StickyGreen_body_entered"]
+[connection signal="body_exited" from="StickyGreen" to="." method="_on_StickyGreen_body_exited"]

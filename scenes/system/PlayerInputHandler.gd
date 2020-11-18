@@ -12,7 +12,7 @@ func input_update(delta) -> void:
 		var down: float = Input.get_action_strength("move_down")
 		
 		entity.set_ladder(Input.is_action_just_pressed("ladder"))
-		
+		#print(entity.get_ladder())
 		entity.set_moving(Vector2(right-left, down-up))
 		
 		if entity.is_in_group("lerow"):

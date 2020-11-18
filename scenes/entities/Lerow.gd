@@ -220,6 +220,9 @@ func _ready():
 	air_states.connect("state_changed", self, "_on_air_state_changed")
 	ladder_states.connect("state_changed", self, "_on_air_state_changed")
 
+func _process(delta):
+	pass
+	#print(next_ladder)
 
 func _on_air_state_changed(s):
 	label.text = s
@@ -233,3 +236,6 @@ func _on_Trigger_area_exited(area):
 	var target = area as Area2D
 	if target.is_in_group("ladder"):
 		next_ladder = null
+
+func _on_Trigger_body_entered(body):
+	pass # Replace with function body.

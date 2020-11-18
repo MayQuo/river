@@ -48,6 +48,11 @@ _global_script_classes=[ {
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://scenes/system/StateMachine.gd"
+}, {
+"base": "Entity",
+"class": "StickyGreen",
+"language": "GDScript",
+"path": "res://scenes/entities/StickyGreen.gd"
 } ]
 _global_script_class_icons={
 "Entity": "",
@@ -57,7 +62,8 @@ _global_script_class_icons={
 "PlayerInputHandler": "",
 "Stage": "",
 "State": "",
-"StateMachine": ""
+"StateMachine": "",
+"StickyGreen": ""
 }
 
 [application]

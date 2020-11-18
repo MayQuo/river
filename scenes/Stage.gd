@@ -7,6 +7,9 @@ onready var camera: Camera2D =  $Camera2D
 onready var camera_zoom: AnimationPlayer = $Camera2D/Zoom
 onready var healthbar: HBoxContainer = $UI/Healthbar
 
+var next_sticky = null
+var swapped_player = false
+
 var heart_container = preload("res://scenes/ui/HeartContainer.tscn")
 var heart_full = preload("res://textures/ui/heart_full.png")
 var heart_empty = preload("res://textures/ui/heart_empty.png")
@@ -24,6 +27,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	camera.position = lerp(camera.position, camera_target.position, camera_speed * delta)
 	healthbar_container_beating()
+	
+	if Input.is_action_just_pressed("ui_accept"):
+		if next_sticky and swapped_player == false:
+			swapped_player = true
+			player_controller.entity = next_sticky
+		else:
+			swapped_player = false
+			player_controller.entity = player
+			
 
 func _on_Lerow_health_changed():
 	generate_healthbar_container()
@@ -69,3 +81,13 @@ func _on_Forest01_cinematic_action_finished():
 	camera_speed = camera_player_speed
 	player.is_playable = true
 	camera_zoom.play("zoom_in")
+
+
+func _on_StickyGreen_body_entered(body, other):
+	if body.is_in_group("lerow"):
+		next_sticky = other
+
+
+func _on_StickyGreen_body_exited(body, other):
+	if body.is_in_group("lerow"):
+		next_sticky = null
