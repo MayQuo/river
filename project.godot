@@ -9,15 +9,80 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "EntityStateMachine",
+"class": "BasicEntityStateMachine",
+"language": "GDScript",
+"path": "res://scenes/system/BasicEntityStateMachine.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Box",
+"language": "GDScript",
+"path": "res://scenes/environment/Box.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Entity",
 "language": "GDScript",
 "path": "res://scenes/entities/Entity.gd"
 }, {
+"base": "State",
+"class": "EntityState",
+"language": "GDScript",
+"path": "res://scenes/system/EntityState.gd"
+}, {
+"base": "StateMachine",
+"class": "EntityStateMachine",
+"language": "GDScript",
+"path": "res://scenes/system/EntityStateMachine.gd"
+}, {
+"base": "EntityStateMachine",
+"class": "EntityStateMachineAir",
+"language": "GDScript",
+"path": "res://scenes/system/EntityStateMachineAir.gd"
+}, {
+"base": "EntityStateMachine",
+"class": "EntityStateMachineLadder",
+"language": "GDScript",
+"path": "res://scenes/system/EntityStateMachineLadder.gd"
+}, {
 "base": "Node2D",
 "class": "InputHandler",
 "language": "GDScript",
 "path": "res://scenes/system/InputHandler.gd"
+}, {
+"base": "InputHandler",
+"class": "InputHandlerAI",
+"language": "GDScript",
+"path": "res://scenes/system/InputHandlerAI.gd"
+}, {
+"base": "InputHandler",
+"class": "InputHandlerPlayer",
+"language": "GDScript",
+"path": "res://scenes/system/InputHandlerPlayer.gd"
+}, {
+"base": "Node",
+"class": "Inventory",
+"language": "GDScript",
+"path": "res://scenes/system/Inventory.gd"
+}, {
+"base": "PanelContainer",
+"class": "InventoryUI",
+"language": "GDScript",
+"path": "res://scenes/ui/InventoryUI.gd"
+}, {
+"base": "Area2D",
+"class": "Item",
+"language": "GDScript",
+"path": "res://scenes/environment/Item.gd"
+}, {
+"base": "Resource",
+"class": "ItemType",
+"language": "GDScript",
+"path": "res://scenes/system/scriptable_objects/ItemType.gd"
+}, {
+"base": "PanelContainer",
+"class": "ItemUI",
+"language": "GDScript",
+"path": "res://scenes/ui/ItemUI.gd"
 }, {
 "base": "Area2D",
 "class": "Lava",
@@ -29,10 +94,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/entities/Lerow.gd"
 }, {
-"base": "InputHandler",
-"class": "PlayerInputHandler",
+"base": "BasicEntityStateMachine",
+"class": "LerowEntityStateMachine",
 "language": "GDScript",
-"path": "res://scenes/system/PlayerInputHandler.gd"
+"path": "res://scenes/system/LerowEntityStateMachine.gd"
 }, {
 "base": "Node2D",
 "class": "Stage",
@@ -44,7 +109,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/system/State.gd"
 }, {
-"base": "Node",
+"base": "State",
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://scenes/system/StateMachine.gd"
@@ -55,11 +120,24 @@ _global_script_classes=[ {
 "path": "res://scenes/entities/StickyGreen.gd"
 } ]
 _global_script_class_icons={
+"BasicEntityStateMachine": "",
+"Box": "",
 "Entity": "",
+"EntityState": "",
+"EntityStateMachine": "",
+"EntityStateMachineAir": "",
+"EntityStateMachineLadder": "",
 "InputHandler": "",
+"InputHandlerAI": "",
+"InputHandlerPlayer": "",
+"Inventory": "",
+"InventoryUI": "",
+"Item": "",
+"ItemType": "",
+"ItemUI": "",
 "Lava": "",
 "Lerow": "",
-"PlayerInputHandler": "",
+"LerowEntityStateMachine": "",
 "Stage": "",
 "State": "",
 "StateMachine": "",
@@ -72,9 +150,13 @@ config/name="Lerow"
 run/main_scene="res://scenes/Stage.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+ItemData="*res://scenes/singletons/ItemData.gd"
+
 [debug]
 
-settings/fps/force_fps=144
+settings/fps/force_fps=60
 
 [display]
 
@@ -140,11 +222,27 @@ smoke={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":52,"unicode":0,"echo":false,"script":null)
  ]
 }
+attack={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+inventory={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":73,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [rendering]
 
 quality/2d/use_nvidia_rect_flicker_workaround=true
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
 quality/2d/use_pixel_snap=true
+quality/filters/anisotropic_filter_level=1
+quality/shadows/filter_mode=0
+quality/subsurface_scattering/quality=0
+quality/subsurface_scattering/weight_samples=false
 environment/default_clear_color=Color( 0.784314, 0.870588, 0.945098, 1 )
 quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"

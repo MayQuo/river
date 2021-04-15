@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/entities/EntityAI.tscn" type="PackedScene" id=1]
+[ext_resource path="res://resources/spriteframes/sticky_red_1.tres" type="SpriteFrames" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5, 6 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 8.0
+
+[node name="StickyRed" instance=ExtResource( 1 )]
+entity_name = "Sticky Red"
+movement_speed = 145.0
+jump_height = 400.0
+
+[node name="AnimatedSprite" parent="." index="0"]
+frames = ExtResource( 3 )
+animation = "idle"
+offset = Vector2( 0, -16 )
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( 0, -6 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger" index="0"]
+position = Vector2( 0, -6 )
+shape = SubResource( 2 )
+
+[node name="TimerAISwap" type="Timer" parent="." index="8"]
+one_shot = true
+[connection signal="timeout" from="TimerAISwap" to="InputHandlerAI" method="_on_TimerAISwap_timeout"]

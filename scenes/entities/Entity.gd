@@ -19,7 +19,16 @@ export(bool) var is_attackable: bool = true
 
 ####################################################################################################
 onready var animated_sprite = $AnimatedSprite
-onready var state_machine: StateMachine = $StateMachine
+onready var state_machine = $EntityStateMachine
+onready var coyote_timer = $CoyoteTimer
+onready var jump_buffer = $JumpBuffer
+
+# standard - animation tag cycles
+var animation_tag_move = "move" 
+var animation_tag_idle = "idle"
+var animation_tag_fall = "fall"
+var animation_tag_jump = "jump"
+var animation_tag_landing = "landing"
 
 var jump_count: int = 1
 var velocity: Vector2 = Vector2()
@@ -45,17 +54,27 @@ func set_ladder(value: bool) -> void:
 func get_ladder() -> bool:
 	return ladder
 
+var push: bool = false setget set_pushing, get_pushing
+func set_pushing(value: bool) -> void:
+	if push != value:
+		emit_signal("push_changed")
+	push = value
+func get_pushing() -> bool:
+	return push
+
 ####################################################################################################
 signal health_changed
+signal push_changed
 
 ####################################################################################################
 
 func _ready():
 	spawn_point = global_position
 	state_machine.parent = self
-	state_machine.entity = self
-	state_machine.init()
-
+	if state_machine is EntityStateMachine:
+		state_machine.set_entity(self)
+	#state_machine.init()
+	#state_machine.enter()
 	
 ####################################################################################################
 func update_flip_h() -> void:
@@ -73,7 +92,7 @@ func _process(delta) -> void:
 
 	# apply velocity & collision
 	var snap = Vector2.DOWN * 16 if is_on_floor() and not get_jumping() else Vector2.ZERO
-	#velocity = move_and_slide(velocity, Vector2.UP)
+
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP)
 	velocity.x = clamp(velocity.x, -movement_speed, movement_speed)
 

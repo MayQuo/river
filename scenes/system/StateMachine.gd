@@ -1,33 +1,63 @@
-extends Node
+extends State
 class_name StateMachine
 
 var states = {}
-var parent = null
-var current_state = null
-var prev = null
-var entity = null
+var state: State = null
+var prev_state: State = null
 
-signal state_changed(s)
+signal state_changed
+signal state_entered
+signal state_exited(old_state)
 
-func define_state(name: String, state) -> void:
-	states[name] = state
-	states[name].parent = self
-	states[name].entity = entity
+################################################################################
+func enter():
+	.enter()
+	if state != null:
+		state.enter()
+		emit_signal("state_entered")
+	pass
 
-func change_state(name: String):
-	current_state = states[name]
-	current_state.init()
-	emit_signal("state_changed", name)
-
-func init():
-	if not states.empty() and current_state == null:
-		current_state = states.values()[0]
-		current_state.entity = entity
-		#current_state.init()
-		
 func update(delta):
-	if current_state:
-		current_state.update(delta)
+	.update(delta)
+	if state != null:
+		state.update(delta)
+	pass
 
-func get(name: String):
-	return states[name]
+func exit():
+	if state != null:
+		state.exit()
+		emit_signal("state_exited", state)
+	pass
+
+################################################################################
+func add_state(tag, new_state):
+	states[tag] = new_state
+	states[tag].parent = self
+	states[tag].tag = tag
+	if state == null:
+		change_state(tag)
+	pass
+
+func remove_state(tag):
+	states.erase(tag)
+	pass
+
+func change_state(tag):
+	if states.empty() || not states.has(tag):
+		return
+		
+	if states[tag] == state:
+		return
+		
+	var next_state = states[tag]
+	if next_state == null:
+		return
+
+	exit()
+	
+	prev_state = state
+	state = next_state
+	emit_signal("state_changed")
+	enter()
+	pass
+################################################################################

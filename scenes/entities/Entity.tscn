@@ -10,7 +10,14 @@ script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="EntityStateMachine" type="Node" parent="."]
 script = ExtResource( 2 )
 
 [node name="Trigger" type="Area2D" parent="."]
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBuffer" type="Timer" parent="."]
+wait_time = 0.05

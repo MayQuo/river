@@ -2,14 +2,13 @@ extends Node
 class_name State
 
 var parent = null
-var entity = null
+var tag: String
 
-func init() -> void:
-	pass
-	
-func update(delta) -> void:
+func enter():
 	pass
 
-func change_state(name: String) -> void:
-	if parent:
-		parent.change_state(name)
+func update(delta):
+	pass
+
+func exit():
+	pass

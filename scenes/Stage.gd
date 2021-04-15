@@ -6,7 +6,7 @@ onready var player_controller = $PlayerInputHandler
 onready var camera: Camera2D =  $Camera2D
 onready var camera_zoom: AnimationPlayer = $Camera2D/Zoom
 onready var healthbar: HBoxContainer = $UI/Healthbar
-
+onready var inventory_ui: InventoryUI = $UI/InventoryUI
 var next_sticky = null
 var swapped_player = false
 
@@ -35,7 +35,9 @@ func _process(delta: float) -> void:
 		else:
 			swapped_player = false
 			player_controller.entity = player
-			
+	
+	if Input.is_action_just_pressed("inventory"):
+		inventory_ui.visible = !inventory_ui.visible
 
 func _on_Lerow_health_changed():
 	generate_healthbar_container()
@@ -82,12 +84,14 @@ func _on_Forest01_cinematic_action_finished():
 	player.is_playable = true
 	camera_zoom.play("zoom_in")
 
-
 func _on_StickyGreen_body_entered(body, other):
 	if body.is_in_group("lerow"):
 		next_sticky = other
 
-
 func _on_StickyGreen_body_exited(body, other):
 	if body.is_in_group("lerow"):
 		next_sticky = null
+
+
+func _on_Item2_item_picked_up(actor):
+	$StickyGreen/ThiefLabel.text = "Du Dieb! Die Kräuter gehören mir!"

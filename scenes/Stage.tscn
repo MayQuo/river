@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/Stage.gd" type="Script" id=1]
 [ext_resource path="res://scenes/levels/Forest01.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/system/PlayerInputHandler.gd" type="Script" id=3]
+[ext_resource path="res://scenes/system/InputHandlerPlayer.gd" type="Script" id=3]
 [ext_resource path="res://scenes/entities/Lerow.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/entities/StickyGreen.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/entities/StickyRed.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/levels/Forest_Village.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/environment/Item.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/ui/InventoryUI.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Animation" id=1]
 resource_name = "zoom_in"
@@ -18,7 +22,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.3, 0.3 ), Vector2( 0.2, 0.2 ) ]
+"values": [ Vector2( 0.35, 0.35 ), Vector2( 0.25, 0.25 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -32,7 +36,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.2, 0.2 ), Vector2( 0.3, 0.3 ) ]
+"values": [ Vector2( 0.25, 0.25 ), Vector2( 0.3, 0.3 ) ]
 }
 
 [node name="Stage" type="Node2D"]
@@ -40,24 +44,25 @@ script = ExtResource( 1 )
 
 [node name="Forest01" parent="." instance=ExtResource( 2 )]
 
+[node name="Forest_Village" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1300, -800 )
+
 [node name="PlayerInputHandler" type="Node2D" parent="."]
 script = ExtResource( 3 )
-entity = NodePath("../Lerow")
+entity_node = NodePath("../Lerow")
 
 [node name="Lerow" parent="." groups=[
 "lerow",
 ] instance=ExtResource( 4 )]
-position = Vector2( 296, 384 )
+position = Vector2( -215.478, 126.406 )
 entity_name = "Lerow"
-movement_speed = 160.0
-acceleration = 10.0
-jump_height = 140.0
+movement_speed = 200.0
+jump_height = 200.0
 is_playable = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 888, -152 )
 current = true
-zoom = Vector2( 0.3, 0.3 )
+zoom = Vector2( 0.25, 0.25 )
 smoothing_speed = 10.0
 
 [node name="Zoom" type="AnimationPlayer" parent="Camera2D"]
@@ -68,20 +73,56 @@ anims/zoom_out = SubResource( 2 )
 
 [node name="Healthbar" type="HBoxContainer" parent="UI"]
 modulate = Color( 0.956863, 0.937255, 1, 1 )
-margin_left = 8.0
-margin_right = 320.0
+margin_left = 7.0
+margin_right = 319.0
 margin_bottom = 64.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="InventoryUI" parent="UI" instance=ExtResource( 9 )]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -346.0
+margin_top = -280.0
+margin_right = -50.0
+margin_bottom = 272.5
+entity_path = NodePath("../../Lerow")
+
 [node name="StickyGreen" parent="." instance=ExtResource( 5 )]
-position = Vector2( 224, 384 )
-movement_speed = 200.0
-jump_height = 200.0
+position = Vector2( 526.658, 128 )
 is_playable = true
+
+[node name="ThiefLabel" type="Label" parent="StickyGreen"]
+margin_left = -27.0
+margin_top = -38.0
+margin_right = 29.0
+margin_bottom = -15.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StickyRed" parent="." instance=ExtResource( 6 )]
+position = Vector2( -181.743, 253.039 )
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="Item" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 395.7, 145.587 )
+
+[node name="Item2" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 477.35, 114.474 )
+
+[node name="Item3" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 274.396, 148.091 )
 [connection signal="cinematic_action_finished" from="Forest01" to="." method="_on_Forest01_cinematic_action_finished"]
 [connection signal="cinematic_action_start" from="Forest01" to="." method="_on_Forest01_cinematic_action_start"]
 [connection signal="health_changed" from="Lerow" to="." method="_on_Lerow_health_changed"]
 [connection signal="body_entered" from="StickyGreen" to="." method="_on_StickyGreen_body_entered"]
 [connection signal="body_exited" from="StickyGreen" to="." method="_on_StickyGreen_body_exited"]
+[connection signal="item_picked_up" from="Items/Item2" to="." method="_on_Item2_item_picked_up"]

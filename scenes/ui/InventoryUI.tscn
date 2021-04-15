@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://resources/fonts/Font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scenes/ui/InventoryUI.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.235294, 0.239216, 0.313726, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+expand_margin_top = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color( 1, 1, 1, 0.6 )
+shadow_size = 9
+
+[node name="InventoryUI" type="PanelContainer"]
+margin_right = 346.0
+margin_bottom = 545.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="."]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 343.0
+margin_bottom = 542.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBox"]
+margin_right = 340.0
+margin_bottom = 41.0
+custom_constants/margin_top = 8
+custom_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="VBox/MarginContainer2"]
+margin_top = 8.0
+margin_right = 340.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.92549, 0.721569, 0.298039, 1 )
+custom_colors/font_color_shadow = Color( 1, 0.34902, 0.34902, 1 )
+text = "Inventory"
+align = 1
+uppercase = true
+
+[node name="ItemList" type="VBoxContainer" parent="VBox"]
+margin_top = 45.0
+margin_right = 340.0
+margin_bottom = 45.0
